@@ -84,7 +84,7 @@ def update_datatable(input,hoverData):
         
     columns = [{"name": i, "id": i} for i in df.columns]
     return columns, data
-
+ 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='8050', debug=False)
