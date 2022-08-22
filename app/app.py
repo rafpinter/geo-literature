@@ -7,6 +7,8 @@ import pandas as pd
 colors = ['#57b82e', '#73f541', '#fff550', '#face48', '#ec3832', '#a82421']
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
+server = app.server
+
 
 df = pd.read_csv('geo_test.csv')
 df["index"] = df["index"].astype(str)
@@ -67,14 +69,14 @@ app.layout = dbc.Container(
     ]
 )
 def update_datatable(input,hoverData):
-    print(input['data'])
+    # print(input['data'])
     # data_sel = 
     data = df.to_dict('records')
     
     if hoverData != None:
-        print("hoverdata:", hoverData["points"][0]["location"])
+        # print("hoverdata:", hoverData["points"][0]["location"])
         try:
-            print("input:", input['data'][0]['selectedpoints'])
+            # print("input:", input['data'][0]['selectedpoints'])
             data = df[df["country"] == hoverData["points"][0]["location"]].to_dict('records')
         except KeyError:
             data = df.to_dict('records')
@@ -83,4 +85,6 @@ def update_datatable(input,hoverData):
     columns = [{"name": i, "id": i} for i in df.columns]
     return columns, data
 
-app.run_server(debug=True)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='8050', debug=False)

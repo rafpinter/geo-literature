@@ -1,0 +1,3 @@
+/geolit-env
+/__pycache__/*
+*/*.pyc
