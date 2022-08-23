@@ -1,4 +1,5 @@
-FROM python:3.10
+# syntax=docker/dockerfile:1
+FROM python:3.8-slim-buster
 
 ENV DASH_DEBUG_MODE False
 COPY ./app /app
