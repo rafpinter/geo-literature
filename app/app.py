@@ -9,8 +9,12 @@ colors = ['#57b82e', '#73f541', '#fff550', '#face48', '#ec3832', '#a82421']
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 server = app.server
 
-
-df = pd.read_csv('geo_test.csv')
+# df = pd.read_csv('/Users/rafaelapinter/Documents/Python/geo-literaria/app/geo_test.csv')
+df_dict = {
+    'country': ['AFG','ALB','DZA','AGO','ARG','VNM','PSE','YEM','ZMB','ZWE'],
+    'index':["1","2","3","4","5","6","1","2","3","4"]
+    }
+df = pd.DataFrame(data=df_dict)
 df["index"] = df["index"].astype(str)
 
 fig = px.choropleth(
@@ -87,4 +91,4 @@ def update_datatable(input,hoverData):
  
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='8050', debug=False)
+    app.run(host='0.0.0.0', port='8050', debug=True)
