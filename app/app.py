@@ -91,5 +91,5 @@ def update_datatable(input,hoverData):
  
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8050, debug=False)
-    # app.run_server(debug=True, host='0.0.0.0', port=8050) 
+    # app.run(host='0.0.0.0', port=8050, debug=False)
+    app.run_server(debug=True, host='0.0.0.0', port=8050) 
