@@ -2,30 +2,47 @@ from dash import Dash, dcc, html, Input, Output, dash_table
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
+import json
 
-# from layout import layout
-colors = ['#57b82e', '#73f541', '#fff550', '#face48', '#ec3832', '#a82421']
+from preprocess import litData
+from functions import create_accordions
+
+with open("custom.geo.json") as geojson:
+    geojson = json.load(geojson)
+
+countries_geo = []
+
+# Looping over the custom GeoJSON file
+for country in geojson['features']:
+    
+    # Country name detection
+    country_id = country['properties']['sov_a3']
+    geometry = country['geometry']
+    # Adding 'id' information for further match between map and data 
+    countries_geo.append({
+        'type': 'Feature',
+        'geometry': geometry,
+        'id':country_id
+        })
+geojson = {'type': 'FeatureCollection', 'features': countries_geo}
+
+litData = litData()
+books_df, lgbt_index_df = litData.get_data()
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 server = app.server
 
-# df = pd.read_csv('/Users/rafaelapinter/Documents/Python/geo-literaria/app/geo_test.csv')
-df_dict = {
-    'country': ['AFG','ALB','DZA','AGO','ARG','VNM','PSE','YEM','ZMB','ZWE'],
-    'index':["1","2","3","4","5","6","1","2","3","4"]
-    }
-df = pd.DataFrame(data=df_dict)
-df["index"] = df["index"].astype(str)
-
 fig = px.choropleth(
-    data_frame=df,
-    locations='country',
-    color='index',
+    data_frame=lgbt_index_df,
+    locations='ISO-3',
+    color='legal',
     projection = 'natural earth',
     basemap_visible=True,
-    color_discrete_sequence=colors
+    # color_discrete_sequence='RdBu'
 )
 fig.update_layout(height=500, margin={"r":0,"t":0,"l":0,"b":0}, showlegend=False)
+
+
 
 app.layout = dbc.Container(
     [
@@ -45,13 +62,14 @@ app.layout = dbc.Container(
             ]    
         ),
         html.Br(),
-        dbc.Row(
-            [   
-                html.H5("Data"),
-                dash_table.DataTable(id='table')
-            ]
-        ),
+        html.Div(create_accordions(books_df)),
         html.Br(),
+        # dbc.Row(
+        #     [   
+        #         html.H5("Data"),
+        #         dash_table.DataTable(id='table')
+        #     ]
+        # ),
         html.Br(),
         dbc.Row(
             [   
@@ -62,34 +80,34 @@ app.layout = dbc.Container(
     
 )
 
-@app.callback(
-    [ 
-        Output('table', 'columns'),
-        Output('table', 'data'),
-    ],
-    [
-        Input('graph', 'figure'),
-        Input('graph', 'hoverData')
-    ]
-)
-def update_datatable(input,hoverData):
-    # print(input['data'])
-    # data_sel = 
-    data = df.to_dict('records')
+# @app.callback(
+#     [ 
+#         Output('table', 'columns'),
+#         Output('table', 'data'),
+#     ],
+#     [
+#         Input('graph', 'figure'),
+#         Input('graph', 'hoverData')
+#     ]
+# )
+# def update_datatable(input,hoverData):
+#     # print(input['data'])
+#     # data_sel = 
+#     data = books_df.to_dict('records')
     
-    if hoverData != None:
-        # print("hoverdata:", hoverData["points"][0]["location"])
-        try:
-            # print("input:", input['data'][0]['selectedpoints'])
-            data = df[df["country"] == hoverData["points"][0]["location"]].to_dict('records')
-        except KeyError:
-            data = df.to_dict('records')
-        #     hoverData['points']
+#     if hoverData != None:
+#         # print("hoverdata:", hoverData["points"][0]["location"])
+#         try:
+#             # print("input:", input['data'][0]['selectedpoints'])
+#             data = books_df[books_df["country"] == hoverData["points"][0]["location"]].to_dict('records')
+#         except KeyError:
+#             data = books_df.to_dict('records')
+#         #     hoverData['points']
         
-    columns = [{"name": i, "id": i} for i in df.columns]
-    return columns, data
+#     columns = [{"name": i, "id": i} for i in books_df.columns]
+#     return columns, data
  
 
 if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=8050, debug=False)
-    app.run_server(debug=True, host='0.0.0.0', port=8050) 
+    app.run_server(debug=False, host='0.0.0.0', port=8050) 
