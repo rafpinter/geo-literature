@@ -25,7 +25,7 @@ def create_accordion_item(city, year, book_synopsis, author_name, author_origin,
                 title=f"{book_title}",
             )
 
-    
+     
 def create_country_accordion_list(country, books_df):
     # lista de livros do país
     country_books_df = books_df[books_df['country_name'] == country].copy()
