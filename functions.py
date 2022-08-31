@@ -53,11 +53,16 @@ def create_country_accordion_list(country, books_df):
     return country_accordion
 
 
-def create_accordions(books_df):
+def create_accordions(books_df, country_list=None):
     accordions = []
     
-    for country in books_df.country_name.unique():
-        country_accordion = create_country_accordion_list(country, books_df)
-        accordions = accordions + country_accordion
+    if country_list == None:
+        for country in books_df.country_name.unique():
+            country_accordion = create_country_accordion_list(country, books_df)
+            accordions = accordions + country_accordion
+    else:        
+        for country in country_list:
+                country_accordion = create_country_accordion_list(country, books_df)
+                accordions = accordions + country_accordion
         
     return accordions

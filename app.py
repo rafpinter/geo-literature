@@ -62,7 +62,15 @@ app.layout = dbc.Container(
             ]    
         ),
         html.Br(),
-        html.Div(create_accordions(books_df)),
+        dcc.Dropdown(
+            books_df.country_name.unique(),
+            [],
+            id='country_dropdown',
+            placeholder="Selecione o país",
+            multi=True
+        ),
+        html.Br(),
+        html.Div(id='accordion'),
         html.Br(),
         # dbc.Row(
         #     [   
@@ -76,20 +84,32 @@ app.layout = dbc.Container(
                 html.P("Em construição pela melhor namorada do mundo"),
             ], justify="center", align="center", className="h-50"
         ),
+        html.Div(id='test')
     ],
     
 )
 
-# @app.callback(
-#     [ 
-#         Output('table', 'columns'),
-#         Output('table', 'data'),
-#     ],
-#     [
-#         Input('graph', 'figure'),
-#         Input('graph', 'hoverData')
-#     ]
-# )
+@app.callback(
+    Output('accordion', 'children'),
+    Input('country_dropdown', 'value')
+)
+def update_output(value):
+    if len(value) == 0:
+        return create_accordions(books_df)
+    else:
+        return create_accordions(books_df, value)
+
+@app.callback(
+    [ 
+        Output('test', 'children'),
+    ],
+    [
+        Input('graph', 'selectedData'),
+    ]
+)
+def test(a):
+    print(a)
+    return a
 # def update_datatable(input,hoverData):
 #     # print(input['data'])
 #     # data_sel = 
@@ -110,4 +130,4 @@ app.layout = dbc.Container(
 
 if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=8050, debug=False)
-    app.run_server(debug=False, host='0.0.0.0', port=8050) 
+    app.run_server(debug=False, host='0.0.0.0', port=8050)
