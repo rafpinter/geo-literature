@@ -38,6 +38,7 @@ fig = px.choropleth(
     color='legal',
     projection = 'natural earth',
     basemap_visible=True,
+    color_continuous_scale='rdbu'
     # color_discrete_sequence='RdBu'
 )
 fig.update_layout(height=500, margin={"r":0,"t":0,"l":0,"b":0}, showlegend=False)
