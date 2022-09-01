@@ -220,3 +220,8 @@ countries = {
 }
 
 country_names = {countries[country]['namePt']:{'nameEn': countries[country]['nameEn'], 'ISO_2': country} for country in countries}
+
+ls = ['ISL', 'CAN', 'IMN', 'URY', 'NOR', 'AND', 'NLD', 'DEU', 'GBR', 'AUS', 'CHE', 'VUT', 'ARG', 'MLT', 'NZL', 'USA', 'SMR', 'SWE', 'BRA', 'ESP', 'FJI', 'LIE', 'DNK', 'LUX', 'BLZ', 'ZAF', 'FRA', 'CHL', 'FIN', 'BEL', 'MEX', 'CUB', 'ISR', 'AUT', 'PRT', 'IRL', 'CZE', 'SUR', 'CRI', 'MCO', None, 'CPV', 'WSM', 'PLW', 'SYC', 'SVN', 'NPL', 'COL', 'ECU', 'MHL', 'JPN', 'ITA', 'GNQ', 'IND', 'AGO', 'MOZ', 'MUS', 'GRC', 'LAO', 'GNB', 'TWN', 'BOL', None, 'CYP', 'TJK', 'NAM', 'NRU', 'HRV', 'NIC', 'EST', 'FSM', 'PER', 'BTN', 'VEN', 'BWA', 'BHS', 'UZB', 'SLV', 'SVK', 'PHL', 'GTM', 'TLS', 'BGR', 'HND', 'VNM', 'HUN', 'COD', 'STP', 'THA', 'LTU', 'MNE', 'LVA', 'ROU', 'POL', 'SRB', 'KOR', 'BHR', 'TON', 'PAN', 'KIR', 'BIH', 'GEO', 'ALB', 'PNG', 'LSO', 'GAB', 'PRY', 'KHM', 'LKA', 'TKM', 'CHN', 'MNG', 'UKR', 'TTO', 'KGZ', 'BFA', 'TUV', 'DOM', 'ATG', 'GRD', 'IDN', 'BLR', 'MDG', 'LCA', 'TUR', 'MDA', 'MKD', 'RUS', 'HTI', 'KAZ', 'BEN', 'SYR', 'PAK', 'BRB', 'LBN', 'RWA', 'ARM', 'COG', 'MLI', 'CIV', 'SWZ', 'DJI', 'SGP', 'JAM', 'KNA', 'SLB', 'GUY', 'NER', 'MDV', 'SLE', 'AZE', 'ZWE', 'DMA', 'MAR', 'KWT', 'CAF', 'BDI', 'KEN', 'VCT', 'LBR', 'GHA', 'BGD', 'JOR', 'ERI', 'SSD', 'MWI', 'PRK', 'ZMB', 'TGO', 'COM', 'PSE', 'CMR', 'TZA', 'GIN', 'MMR', 'TUN', 'SEN', 'DZA', 'IRQ', 'UGA', 'TCD', 'ETH', 'MYS', 'SDN', 'OMN', 'EGY', 'NGA', 'GMB', 'LBY', 'IRN', 'QAT', 'ARE', 'SOM', 'MRT', 'YEM', 'SAU', 'BRN', 'AFG']
+country_dict = {}
+for i, country in enumerate(ls):
+    country_dict[country] = i

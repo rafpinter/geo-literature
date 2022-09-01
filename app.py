@@ -26,23 +26,49 @@ for country in geojson['features']:
         })
 geojson = {'type': 'FeatureCollection', 'features': countries_geo}
 
+ls = ['ISL', 'CAN', 'IMN', 'URY', 'NOR', 'AND', 'NLD', 'DEU', 'GBR', 'AUS', 'CHE', 'VUT', 'ARG', 'MLT', 'NZL', 'USA', 'SMR', 'SWE', 'BRA', 'ESP', 'FJI', 'LIE', 'DNK', 'LUX', 'BLZ', 'ZAF', 'FRA', 'CHL', 'FIN', 'BEL', 'MEX', 'CUB', 'ISR', 'AUT', 'PRT', 'IRL', 'CZE', 'SUR', 'CRI', 'MCO', None, 'CPV', 'WSM', 'PLW', 'SYC', 'SVN', 'NPL', 'COL', 'ECU', 'MHL', 'JPN', 'ITA', 'GNQ', 'IND', 'AGO', 'MOZ', 'MUS', 'GRC', 'LAO', 'GNB', 'TWN', 'BOL', None, 'CYP', 'TJK', 'NAM', 'NRU', 'HRV', 'NIC', 'EST', 'FSM', 'PER', 'BTN', 'VEN', 'BWA', 'BHS', 'UZB', 'SLV', 'SVK', 'PHL', 'GTM', 'TLS', 'BGR', 'HND', 'VNM', 'HUN', 'COD', 'STP', 'THA', 'LTU', 'MNE', 'LVA', 'ROU', 'POL', 'SRB', 'KOR', 'BHR', 'TON', 'PAN', 'KIR', 'BIH', 'GEO', 'ALB', 'PNG', 'LSO', 'GAB', 'PRY', 'KHM', 'LKA', 'TKM', 'CHN', 'MNG', 'UKR', 'TTO', 'KGZ', 'BFA', 'TUV', 'DOM', 'ATG', 'GRD', 'IDN', 'BLR', 'MDG', 'LCA', 'TUR', 'MDA', 'MKD', 'RUS', 'HTI', 'KAZ', 'BEN', 'SYR', 'PAK', 'BRB', 'LBN', 'RWA', 'ARM', 'COG', 'MLI', 'CIV', 'SWZ', 'DJI', 'SGP', 'JAM', 'KNA', 'SLB', 'GUY', 'NER', 'MDV', 'SLE', 'AZE', 'ZWE', 'DMA', 'MAR', 'KWT', 'CAF', 'BDI', 'KEN', 'VCT', 'LBR', 'GHA', 'BGD', 'JOR', 'ERI', 'SSD', 'MWI', 'PRK', 'ZMB', 'TGO', 'COM', 'PSE', 'CMR', 'TZA', 'GIN', 'MMR', 'TUN', 'SEN', 'DZA', 'IRQ', 'UGA', 'TCD', 'ETH', 'MYS', 'SDN', 'OMN', 'EGY', 'NGA', 'GMB', 'LBY', 'IRN', 'QAT', 'ARE', 'SOM', 'MRT', 'YEM', 'SAU', 'BRN', 'AFG']
+country_dict = {}
+for i, country in enumerate(ls):
+    country_dict[country] = i
+
 litData = litData()
 books_df, lgbt_index_df = litData.get_data()
+
+br_codes = books_df[['ISO-3', 'country_name']].copy().drop_duplicates()
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
 server = app.server
 
-fig = px.choropleth(
-    data_frame=lgbt_index_df,
-    locations='ISO-3',
-    color='legal',
-    projection = 'natural earth',
-    basemap_visible=True,
-    color_continuous_scale='rdbu'
-    # color_discrete_sequence='RdBu'
-)
-fig.update_layout(height=500, margin={"r":0,"t":0,"l":0,"b":0}, showlegend=False)
 
+def return_fig(selectedpoints=None):
+    
+    if selectedpoints == None:
+        fig = px.choropleth(
+            data_frame=lgbt_index_df,
+            locations='ISO-3',
+            color='legal',
+            projection = 'natural earth',
+            basemap_visible=True,
+            color_continuous_scale='rdbu'
+        )
+        fig.update_layout(height=500, margin={"r":0,"t":0,"l":0,"b":0}, showlegend=False)
+        
+    else:
+        fig = px.choropleth(
+            data_frame=lgbt_index_df,
+            locations='ISO-3',
+            color='legal',
+            projection = 'natural earth',
+            basemap_visible=True,
+            color_continuous_scale='rdbu'
+            # color_discrete_sequence='RdBu'
+            )
+        fig.update_layout(
+            height=500, 
+            margin={"r":0,"t":0,"l":0,"b":0}, 
+            showlegend=False)
+        fig.update_traces(selectedpoints=selectedpoints)
+    return fig
 
 
 app.layout = dbc.Container(
@@ -58,10 +84,11 @@ app.layout = dbc.Container(
             [
                 dcc.Graph(
                     id="graph",
-                    figure=fig
+                    figure=return_fig()
                 ),
             ]    
         ),
+        html.Br(),
         html.Br(),
         dcc.Dropdown(
             books_df.country_name.unique(),
@@ -73,12 +100,6 @@ app.layout = dbc.Container(
         html.Br(),
         html.Div(id='accordion'),
         html.Br(),
-        # dbc.Row(
-        #     [   
-        #         html.H5("Data"),
-        #         dash_table.DataTable(id='table')
-        #     ]
-        # ),
         html.Br(),
         dbc.Row(
             [   
@@ -100,34 +121,29 @@ def update_output(value):
     else:
         return create_accordions(books_df, value)
 
+
 @app.callback(
-    [ 
-        Output('test', 'children'),
-    ],
-    [
-        Input('graph', 'selectedData'),
-    ]
+    Output('graph', 'figure'),
+    Input('country_dropdown', 'value')
 )
-def test(a):
-    print(a)
-    return a
-# def update_datatable(input,hoverData):
-#     # print(input['data'])
-#     # data_sel = 
-#     data = books_df.to_dict('records')
-    
-#     if hoverData != None:
-#         # print("hoverdata:", hoverData["points"][0]["location"])
-#         try:
-#             # print("input:", input['data'][0]['selectedpoints'])
-#             data = books_df[books_df["country"] == hoverData["points"][0]["location"]].to_dict('records')
-#         except KeyError:
-#             data = books_df.to_dict('records')
-#         #     hoverData['points']
-        
-#     columns = [{"name": i, "id": i} for i in books_df.columns]
-#     return columns, data
- 
+def test(dropdown_selected_countries):
+    if len(dropdown_selected_countries) == 0:
+        return return_fig()
+    else:
+        # print(dropdown_selected_countries[0])
+        # sel_country = br_codes.loc[br_codes['country_name']==dropdown_selected_countries[0],'ISO-3'].item()
+        # print(sel_country)
+        countries = [country_dict[br_codes.loc[br_codes['country_name']==country,'ISO-3'].item()] for country in dropdown_selected_countries if country != None]
+        return return_fig(countries)
+
+# @app.callback(
+#     Output('test', 'chilren'),
+#     Input('graph', 'figure')
+# )
+# def test(value):
+#     print(value)
+#     return []
+
 
 if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=8050, debug=False)
