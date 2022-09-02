@@ -130,19 +130,8 @@ def test(dropdown_selected_countries):
     if len(dropdown_selected_countries) == 0:
         return return_fig()
     else:
-        # print(dropdown_selected_countries[0])
-        # sel_country = br_codes.loc[br_codes['country_name']==dropdown_selected_countries[0],'ISO-3'].item()
-        # print(sel_country)
         countries = [country_dict[br_codes.loc[br_codes['country_name']==country,'ISO-3'].item()] for country in dropdown_selected_countries if country != None]
         return return_fig(countries)
-
-# @app.callback(
-#     Output('test', 'chilren'),
-#     Input('graph', 'figure')
-# )
-# def test(value):
-#     print(value)
-#     return []
 
 
 if __name__ == '__main__':
