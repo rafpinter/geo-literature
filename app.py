@@ -6,6 +6,8 @@ import json
 
 from preprocess import litData
 from functions import create_accordions
+from page_map import return_fig, map_page
+from page_about import about_page
 
 with open("custom.geo.json") as geojson:
     geojson = json.load(geojson)
@@ -32,7 +34,7 @@ for i, country in enumerate(ls):
     country_dict[country] = i
 
 litData = litData()
-books_df, lgbt_index_df = litData.get_data()
+books_df, lgbt_index_df, about_df = litData.get_data()
 
 br_codes = books_df[['ISO-3', 'country_name']].copy().drop_duplicates()
 
@@ -40,89 +42,43 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 server = app.server
 
 
-def return_fig(selectedpoints=None):
-    
-    if selectedpoints == None:
-        fig = px.choropleth(
-            data_frame=lgbt_index_df,
-            locations='ISO-3',
-            color='legal',
-            projection = 'natural earth',
-            basemap_visible=True,
-            color_continuous_scale='rdbu'
-        )
-        fig.update_layout(height=500, margin={"r":0,"t":0,"l":0,"b":0}, showlegend=False)
-        
-    else:
-        fig = px.choropleth(
-            data_frame=lgbt_index_df,
-            locations='ISO-3',
-            color='legal',
-            projection = 'natural earth',
-            basemap_visible=True,
-            color_continuous_scale='rdbu'
-            # color_discrete_sequence='RdBu'
-            )
-        fig.update_layout(
-            height=500, 
-            margin={"r":0,"t":0,"l":0,"b":0}, 
-            showlegend=False)
-        fig.update_traces(selectedpoints=selectedpoints)
-    return fig
-
 
 app.layout = dbc.Container(
     [
+        dcc.Location(id="url"),
         dbc.NavbarSimple(
             brand="Geo Literature",
-            brand_href="#",
+            brand_href="/",
             color="primary",
             dark=True,
+            children=[
+                dbc.NavItem(dbc.NavLink("Map", href="/")),
+                dbc.NavItem(dbc.NavLink("About", href="/about"))
+            ],
             style={"margin-left": 0, "margin-right": 0}
         ),
         html.Br(),
         html.Div(
-            [
-                dbc.Row(
-                    [
-                        dcc.Graph(
-                            id="graph",
-                            figure=return_fig()
-                        ),
-                    ]    
-                ),
-                html.Br(),
-                html.Br(),
-                html.Div(
-                    [
-                        
-                    ],
-                    style={"padding-right": 25, "padding-left": 25}
-                ),
-                dcc.Dropdown(
-                    books_df.country_name.unique(),
-                    [],
-                    id='country_dropdown',
-                    placeholder="Selecione o país",
-                    multi=True
-                ),
-                html.Br(),
-                html.Div(id='accordion'),
-                html.Br(),
-                html.Br(),
-                dbc.Row(
-                    [   
-                        html.P("Em construição pela melhor namorada do mundo"),
-                    ], justify="center", align="center", className="h-50"
-                ),
-                html.Div(id='test')
-            ],
+            id='page-content',
+            children=[],
             style={"margin-left": 125, "margin-right": 125}
         ),
     ],
     fluid=True,
     style={"margin-left": 0, "margin-right": 0, "padding-left": 0, "padding-right": 0}
 )
+
+@app.callback(
+    Output('page-content', 'children'),
+    Input('url', 'pathname'),
+)
+def change_page(pathname):
+    if pathname == '/' or pathname == '':
+        return map_page(lgbt_index_df, books_df)
+    elif pathname == '/about':
+        return about_page(about_df)
+    else:
+        return html.P('Page Not Found')
 
 @app.callback(
     Output('accordion', 'children'),
@@ -141,10 +97,10 @@ def update_output(value):
 )
 def test(dropdown_selected_countries):
     if len(dropdown_selected_countries) == 0:
-        return return_fig()
+        return return_fig(lgbt_index_df)
     else:
         countries = [country_dict[br_codes.loc[br_codes['country_name']==country,'ISO-3'].item()] for country in dropdown_selected_countries if country != None]
-        return return_fig(countries)
+        return return_fig(lgbt_index_df, selectedpoints=countries)
 
 
 if __name__ == '__main__':
