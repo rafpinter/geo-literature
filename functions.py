@@ -18,7 +18,7 @@ def create_accordion_item(city, year, book_synopsis, author_name, author_origin,
                 html.H6(f"{author_name}, {author_origin}")
             ),
             ],
-                style={"font-family": font, },
+                style={"font-family": font},
                 title=f"{book_title}, {author_name}",
             )
 
