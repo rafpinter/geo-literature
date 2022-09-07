@@ -67,11 +67,11 @@ def map_page(lgbt_index_df, books_df):
             html.Div(id='accordion'),
             html.Br(),
             html.Br(),
-            dbc.Row(
-                [   
-                    html.P("Em construição pela melhor namorada do mundo"),
-                ], justify="center", align="center", className="h-50"
-            ),
+            # dbc.Row(
+            #     [   
+            #         html.P("Em construição pela melhor namorada do mundo"),
+            #     ], justify="center", align="center", className="h-50"
+            # ),
             html.Div(id='test')
         ]
     )
