@@ -36,7 +36,7 @@ def create_country_accordion_list(country, books_df):
     for index,row in country_books_df.iterrows():
         
         accordion_item = create_accordion_item(
-            city="City", # colocar quando fizer join authors e books
+            city=row['city'], 
             year=row['year'], 
             book_synopsis=row['synopsis'], 
             author_name=row['author'], 
