@@ -21,8 +21,8 @@ def create_accordion_item(city, year, book_synopsis, author_name, author_origin,
             #     dbc.Button("Learn more", color="primary"), className="lead"
             # ),
                 ],
-                style={"font-family": "Arial, Helvetica, sans-serif"},
-                title=f"{book_title}",
+                style={"font-family": "Nunito Sans"},
+                title=f"{book_title}, {author_name}",
             )
 
      

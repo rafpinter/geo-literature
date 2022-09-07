@@ -36,7 +36,7 @@ books_df, lgbt_index_df = litData.get_data()
 
 br_codes = books_df[['ISO-3', 'country_name']].copy().drop_duplicates()
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
+app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 server = app.server
 
 
@@ -78,37 +78,50 @@ app.layout = dbc.Container(
             brand_href="#",
             color="primary",
             dark=True,
+            style={"margin-left": 0, "margin-right": 0}
         ),
         html.Br(),
-        dbc.Row(
+        html.Div(
             [
-                dcc.Graph(
-                    id="graph",
-                    figure=return_fig()
+                dbc.Row(
+                    [
+                        dcc.Graph(
+                            id="graph",
+                            figure=return_fig()
+                        ),
+                    ]    
                 ),
-            ]    
+                html.Br(),
+                html.Br(),
+                html.Div(
+                    [
+                        
+                    ],
+                    style={"padding-right": 25, "padding-left": 25}
+                ),
+                dcc.Dropdown(
+                    books_df.country_name.unique(),
+                    [],
+                    id='country_dropdown',
+                    placeholder="Selecione o país",
+                    multi=True
+                ),
+                html.Br(),
+                html.Div(id='accordion'),
+                html.Br(),
+                html.Br(),
+                dbc.Row(
+                    [   
+                        html.P("Em construição pela melhor namorada do mundo"),
+                    ], justify="center", align="center", className="h-50"
+                ),
+                html.Div(id='test')
+            ],
+            style={"margin-left": 125, "margin-right": 125}
         ),
-        html.Br(),
-        html.Br(),
-        dcc.Dropdown(
-            books_df.country_name.unique(),
-            [],
-            id='country_dropdown',
-            placeholder="Selecione o país",
-            multi=True
-        ),
-        html.Br(),
-        html.Div(id='accordion'),
-        html.Br(),
-        html.Br(),
-        dbc.Row(
-            [   
-                html.P("Em construição pela melhor namorada do mundo"),
-            ], justify="center", align="center", className="h-50"
-        ),
-        html.Div(id='test')
     ],
-    
+    fluid=True,
+    style={"margin-left": 0, "margin-right": 0, "padding-left": 0, "padding-right": 0}
 )
 
 @app.callback(
