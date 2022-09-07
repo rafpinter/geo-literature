@@ -3,25 +3,22 @@ import pandas as pd
 from dash import dcc, html
 
 def create_accordion_item(city, year, book_synopsis, author_name, author_origin, book_title):
+    font = "Nunito Sans"
     return dbc.AccordionItem( 
                 [
                     html.P(f"{city}, {year}",
-                           style={"font-family": "Arial, Helvetica, sans-serif"}),
+                        #    style={"font-family": font}
+                           ),
                     html.P(
                         book_synopsis,
-                        # "featured content or information.",
-                        # className="lead",
-                        style={"font-family": "Arial, Helvetica, sans-serif"}
+                        # style={"font-family": font}
             ),
-            html.Hr(className="my-2"),
+            # html.Hr(className="my-2"),
             html.P(
-                html.B(f"{author_name}, {author_origin}",style={"font-family": "Arial, Helvetica, sans-serif"})
+                html.H6(f"{author_name}, {author_origin}")
             ),
-            # html.P(
-            #     dbc.Button("Learn more", color="primary"), className="lead"
-            # ),
-                ],
-                style={"font-family": "Nunito Sans"},
+            ],
+                style={"font-family": font, },
                 title=f"{book_title}, {author_name}",
             )
 
@@ -40,16 +37,14 @@ def create_country_accordion_list(country, books_df):
             year=row['year'], 
             book_synopsis=row['synopsis'], 
             author_name=row['author'], 
-            author_origin="Country",  # colocar quando fizer o join authors e books
+            author_origin=row['nationality'],
             book_title=row['book_title']
             )
         
         accordion_items.append(accordion_item)
     
     country_accordion = [html.Br(), accordion_title, dbc.Accordion(accordion_items, start_collapsed=True)]
-    
-    # print("country_accordion:", country_accordion)
-    
+        
     return country_accordion
 
 

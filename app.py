@@ -47,7 +47,7 @@ app.layout = dbc.Container(
     [
         dcc.Location(id="url"),
         dbc.NavbarSimple(
-            brand="Geo Literature",
+            brand="Geografia Literária Francófona",
             brand_href="/",
             color="primary",
             dark=True,
