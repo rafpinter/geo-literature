@@ -65,3 +65,25 @@ def create_accordions(books_df, country_list=None):
                 accordions = accordions + country_accordion
         
     return accordions
+
+
+def footer(about_df):
+    return  html.Div(
+        [            
+            html.Footer(
+                children=[
+                    dcc.Link(children=['Ajude a melhorar o site (teste)'], href=about_df.loc[0, 'forms_link'])
+                ],
+            ),
+        ],
+        style={
+            # 'display': 'flex',
+            # 'min-height': '100',
+            # 'flex-direction': 'column',
+            # 'justify-content': 'space-between',
+            "padding-up": 150, 
+            "margin-left": 125, 
+            "margin-right": 125,
+            "margin-bottom": 50
+        }
+    )

@@ -5,7 +5,7 @@ import pandas as pd
 import json
 
 from preprocess import litData
-from functions import create_accordions
+from functions import create_accordions, footer
 from page_map import return_fig, map_page
 from page_about import about_page
 
@@ -63,6 +63,7 @@ app.layout = dbc.Container(
             children=[],
             style={"margin-left": 125, "margin-right": 125}
         ),
+        footer(about_df),
     ],
     fluid=True,
     style={"margin-left": 0, "margin-right": 0, "padding-left": 0, "padding-right": 0}
