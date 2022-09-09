@@ -20,7 +20,6 @@ def return_fig(lgbt_index_df, selectedpoints=None):
                           font_family='Nunito Sans'
                         #   legend_title_text='Índice de legalidade',
                           ) 
-
     else:
         fig = px.choropleth(
             data_frame=lgbt_index_df,
@@ -40,9 +39,10 @@ def return_fig(lgbt_index_df, selectedpoints=None):
     return fig
 
 def map_page(lgbt_index_df, books_df):
-
     return html.Div(
         [
+            html.Br(),
+            html.Br(),
             dbc.Row(
                 [
                     dcc.Graph(

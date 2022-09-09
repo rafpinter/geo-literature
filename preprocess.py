@@ -27,8 +27,12 @@ class litData:
     
     def equality_scores_preprocess(self):
         self.equality_scores_df = pd.merge(self.equality_scores_df, self.iso_codes, left_on='country', right_on='country', how='left')
-        
+    
+    def books_preprocess(self):
+        self.books_df.sort_values(by='country_name', ascending=True, inplace=True)
+    
     def get_data(self):
         self.request_spreadsheet_data()
         self.equality_scores_preprocess()
+        self.books_preprocess()
         return self.books_df, self.equality_scores_df, self.about_df

@@ -2,13 +2,16 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import dcc, html
 
-def create_accordion_item(city, year, book_synopsis, author_name, author_origin, book_title):
+def create_accordion_item(city, year, book_synopsis, author_name, author_origin, book_title, book_link):
     font = "Nunito Sans"
     return dbc.AccordionItem( 
                 [
+                    dcc.Link(children=[book_title], href=book_link),
+                    html.P(),
                     html.P(f"{city}, {year}",
                         #    style={"font-family": font}
-                           ),
+                           className='text-muted'),
+                    # html.Br(),
                     html.P(
                         book_synopsis,
                         # style={"font-family": font}
@@ -38,7 +41,8 @@ def create_country_accordion_list(country, books_df):
             book_synopsis=row['synopsis'], 
             author_name=row['author'], 
             author_origin=row['nationality'],
-            book_title=row['book_title']
+            book_title=row['book_title'],
+            book_link=row['link_ref']
             )
         
         accordion_items.append(accordion_item)
