@@ -22,14 +22,14 @@ def create_accordion_item(city, year, book_synopsis, author_name, author_origin,
             ),
             ],
                 style={"font-family": font},
-                title=f"{book_title}, {author_name}",
+                title=f"{book_title} - {author_name}",
             )
 
      
 def create_country_accordion_list(country, books_df):
     # lista de livros do país
     country_books_df = books_df[books_df['country_name'] == country].copy()
-    
+    country_books_df = country_books_df.sort_values(by='author', ascending=True)
     accordion_title = html.H3(country)
     accordion_items = []
     
