@@ -41,7 +41,8 @@ br_codes = books_df[['ISO-3', 'country_name']].copy().drop_duplicates()
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 server = app.server
 
-
+app.title = "Geo-Lit"
+app._favicon = ("favicon.png")
 
 app.layout = dbc.Container(
     [
