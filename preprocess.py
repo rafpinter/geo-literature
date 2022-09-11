@@ -1,21 +1,15 @@
-import yaml
+import os
 import pandas as pd
 from country_names import country_names
 
 class litData:
     def __init__(self):
         
-        with open("links.yml", "r") as f:
-            try:
-                links = yaml.safe_load(f)
-            except yaml.YAMLError as exc:
-                print(exc)
-        
-        self.spreadsheet_id = links['spreadsheet_id']
-        self.books_tab_id = links['books_tab_id']
-        self.equality_scores_tab_id = links['equality_scores_tab_id']
-        self.about_tab_id = links['about_tab_id']
-        self.iso_codes_tab_id = links['iso_codes_tab_id']
+        self.spreadsheet_id = os.environ['SPREADSHEET_ID']
+        self.books_tab_id = os.environ['BOOKS_TAB_ID']
+        self.equality_scores_tab_id = os.environ['EQUALITY_SCORES_TAB_ID']
+        self.about_tab_id = os.environ['ABOUT_TAB_ID']
+        self.iso_codes_tab_id = os.environ['ISO_CODES_TAB_ID']
         
         self.books_df = None
         self.equality_scores_df = None
