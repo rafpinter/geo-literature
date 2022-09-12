@@ -9,7 +9,7 @@ from functions import create_accordions, footer
 from page_map import return_fig, map_page
 from page_about import about_page
 
-with open("custom.geo.json") as geojson:
+with open("data/custom.geo.json") as geojson:
     geojson = json.load(geojson)
 
 countries_geo = []
