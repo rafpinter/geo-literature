@@ -53,8 +53,8 @@ app.layout = dbc.Container(
             color="primary",
             dark=True,
             children=[
-                dbc.NavItem(dbc.NavLink("Map", href="/")),
-                dbc.NavItem(dbc.NavLink("About", href="/about"))
+                dbc.NavItem(dbc.NavLink("Mapa", href="/")),
+                dbc.NavItem(dbc.NavLink("Sobre Nós", href="/about"))
             ],
             style={"margin-left": 0, "margin-right": 0}
         ),

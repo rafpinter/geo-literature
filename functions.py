@@ -1,6 +1,7 @@
 import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import dcc, html
+from datetime import datetime
 
 def create_accordion_item(city, year, book_synopsis, author_name, author_origin, book_title, book_link):
     font = "Nunito Sans"
@@ -72,7 +73,9 @@ def footer(about_df):
         [            
             html.Footer(
                 children=[
-                    dcc.Link(children=['Ajude a melhorar o site (teste)'], href=about_df.loc[0, 'forms_link'])
+                    dcc.Link(children=['Ajude a melhorar o site (teste)'], href=about_df.loc[0, 'forms_link']),
+                    html.Br(),
+                    html.P(f'Última atualização em {datetime.now().strftime("%d/%m/%Y")}')
                 ],
             ),
         ],
