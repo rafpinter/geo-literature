@@ -37,3 +37,6 @@ class litData:
         self.equality_scores_preprocess()
         self.books_preprocess()
         return self.books_df, self.equality_scores_df, self.about_df
+
+    def total_books_per_country(self):
+        self.books_df['']

@@ -10,9 +10,7 @@ def about_page(about_df):
                     html.H4(about_df.loc[0,'titulo']),
                     html.Br(),
                     html.Br(),
-                    html.P(about_df.loc[0,'paragrafo1']),
-                    html.Br(),
-                    html.P(about_df.loc[0,'paragrafo2']),
+                    html.P(about_df.loc[0,'descricao']),
                     html.Br(),
                     html.Br(),
                     html.P(

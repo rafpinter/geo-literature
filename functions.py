@@ -73,7 +73,7 @@ def footer(about_df):
         [            
             html.Footer(
                 children=[
-                    dcc.Link(children=['Ajude a melhorar o site (teste)'], href=about_df.loc[0, 'forms_link']),
+                    dcc.Link(children=['Ajude a melhorar o site'], href=about_df.loc[0, 'forms_link']),
                     html.Br(),
                     html.P(f'Última atualização em {datetime.now().strftime("%d/%m/%Y")}')
                 ],
