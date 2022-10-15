@@ -73,20 +73,26 @@ def footer(about_df):
         [            
             html.Footer(
                 children=[
-                    dcc.Link(children=['Ajude a melhorar o site'], href=about_df.loc[0, 'forms_link']),
                     html.Br(),
-                    html.P(f'Última atualização em {datetime.now().strftime("%d/%m/%Y")}')
+                    dcc.Link(
+                        children=['Ajude a melhorar o site'], 
+                        href=about_df.loc[0, 'forms_link'],
+                        style={"color": "#cdcece"}),
+                    html.Br(),
+                    html.P(f'Última atualização em {datetime.now().strftime("%d/%m/%Y")}', style={"color": "#707273"})
                 ],
+                style={
+                    "padding-up": 150, 
+                    "vertical-align": "middle",
+                }
             ),
         ],
         style={
-            # 'display': 'flex',
-            # 'min-height': '100',
-            # 'flex-direction': 'column',
-            # 'justify-content': 'space-between',
             "padding-up": 150, 
-            "margin-left": 125, 
-            "margin-right": 125,
-            "margin-bottom": 50
+            "padding-left": "12.5%", 
+            "vertical-align": "middle",
+            "padding-right": "12.5%",
+            "padding-bottom": 10,
+            "background-color": "#1c1c1c"
         }
     )
