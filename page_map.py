@@ -5,50 +5,21 @@ import plotly.express as px
 
 def return_fig(lgbt_index_df, selectedpoints=None):
     
-    if selectedpoints == None:
-        fig = px.choropleth(
-            data_frame=lgbt_index_df,
-            locations='ISO-3',
-            color='Índice de legalidade',
-            projection = 'natural earth',
-            basemap_visible=True,
-            color_continuous_scale='rdbu',
-        )
-        fig.update_layout(height=500, 
-                          margin={"r":0,"t":0,"l":0,"b":0}, 
-                          margin_pad=0,
-                          font_family='Nunito Sans',
-                          legend=dict(
-                            # orientation="h",
-                            # yanchor="bottom",
-                            # y=1.02,
-                            # xanchor="auto",
-                            x=0
-                        )
-                        # #   legend_title_text='Índice de legalidade',
-                          ) 
-    else:
-        fig = px.choropleth(
-            data_frame=lgbt_index_df,
-            locations='ISO-3',
-            color='Índice de legalidade',
-            projection = 'natural earth',
-            basemap_visible=True,
-            color_continuous_scale='rdbu',
-            # color_discrete_sequence='RdBu'
-            )
-        fig.update_layout(
-            height=500,
-            margin={"r":0,"t":0,"l":0,"b":0},
-            legend=dict(
-                # orientation="h",
-                # yanchor="bottom",
-                # y=1.02,
-                # xanchor="auto",
-                x=0
-            )
-            # legend_title_text='Índice de legalidade',
-            )
+    fig = px.choropleth(
+        data_frame=lgbt_index_df,
+        locations='ISO-3',
+        color='Índice de legalidade',
+        projection = 'natural earth',
+        basemap_visible=True,
+        color_continuous_scale='rdbu',
+    )
+    fig.update_layout(height=500, 
+                        margin={"r":0,"t":0,"l":0,"b":0}, 
+                        margin_pad=0,
+                        font_family='Nunito Sans',
+                    # #   legend_title_text='Índice de legalidade',
+                        ) 
+    if selectedpoints != None:
         fig.update_traces(selectedpoints=selectedpoints)
     return fig
 
@@ -59,7 +30,12 @@ def map_page(lgbt_index_df, books_df):
                 [
                     html.Br(),
                     html.Br(),
-                    html.P("Direitos reservados à comunidade LGBTQIAP+ no mundo", style={"margin-left": "12.5%", "margin-right": "12.5%"}),
+                    html.H5("Direitos reservados à comunidade LGBTQIAP+ no mundo", 
+                            style={
+                                # "margin-left": "12.5%", "margin-right": "12.5%",
+                                "margin": "auto", 
+                                "text-align": "center",
+                                "padding-bottom": 10}),
                     dbc.Row(
                         [
                             dcc.Graph(
@@ -81,7 +57,7 @@ def map_page(lgbt_index_df, books_df):
                         [
                             
                         ],
-                        style={"padding-right": 25, "padding-left": 25}
+                        style={"padding-right": "6.5%", "padding-left": "6.5%"}
                     ),
                     dcc.Dropdown(
                         books_df.country_name.unique(),
