@@ -10,9 +10,7 @@ def about_page(about_df):
                     html.H4(about_df.loc[0,'titulo']),
                     html.Br(),
                     html.Br(),
-                    html.P(about_df.loc[0,'paragrafo1']),
-                    html.Br(),
-                    html.P(about_df.loc[0,'paragrafo2']),
+                    dcc.Markdown(about_df.loc[0,'descricao'], style={"text-align": "justify"}),
                     html.Br(),
                     html.Br(),
                     html.P(
@@ -28,7 +26,7 @@ def about_page(about_df):
                         ]
                     ),
                 ],
-                style={'padding-top': 50, 'padding-bottom': 50}
+                style={'padding-top': 50, 'padding-bottom': 50, "margin-left": "12.5%", "margin-right": "12.5%"}
             ),
         ]
     )

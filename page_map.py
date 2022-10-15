@@ -12,13 +12,20 @@ def return_fig(lgbt_index_df, selectedpoints=None):
             color='Índice de legalidade',
             projection = 'natural earth',
             basemap_visible=True,
-            color_continuous_scale='rdbu'
+            color_continuous_scale='rdbu',
         )
         fig.update_layout(height=500, 
                           margin={"r":0,"t":0,"l":0,"b":0}, 
                           margin_pad=0,
-                          font_family='Nunito Sans'
-                        #   legend_title_text='Índice de legalidade',
+                          font_family='Nunito Sans',
+                          legend=dict(
+                            # orientation="h",
+                            # yanchor="bottom",
+                            # y=1.02,
+                            # xanchor="auto",
+                            x=0
+                        )
+                        # #   legend_title_text='Índice de legalidade',
                           ) 
     else:
         fig = px.choropleth(
@@ -27,12 +34,19 @@ def return_fig(lgbt_index_df, selectedpoints=None):
             color='Índice de legalidade',
             projection = 'natural earth',
             basemap_visible=True,
-            color_continuous_scale='rdbu'
+            color_continuous_scale='rdbu',
             # color_discrete_sequence='RdBu'
             )
         fig.update_layout(
             height=500,
             margin={"r":0,"t":0,"l":0,"b":0},
+            legend=dict(
+                # orientation="h",
+                # yanchor="bottom",
+                # y=1.02,
+                # xanchor="auto",
+                x=0
+            )
             # legend_title_text='Índice de legalidade',
             )
         fig.update_traces(selectedpoints=selectedpoints)
@@ -45,6 +59,7 @@ def map_page(lgbt_index_df, books_df):
                 [
                     html.Br(),
                     html.Br(),
+                    html.P("Direitos reservados à comunidade LGBTQIAP+ no mundo", style={"margin-left": "12.5%", "margin-right": "12.5%"}),
                     dbc.Row(
                         [
                             dcc.Graph(
@@ -86,7 +101,7 @@ def map_page(lgbt_index_df, books_df):
                     # ),
                     html.Div(id='test')
                 ],
-                style={"margin-left": 250, "margin-right": 250}
+                style={"margin-left": "12.5%", "margin-right": "12.5%"}
             )
         ]
     )
