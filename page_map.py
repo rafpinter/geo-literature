@@ -16,12 +16,14 @@ def return_fig(lgbt_index_df, selectedpoints=None):
         color_continuous_scale='rdbu',
         hover_data=['ISO-3', 'country', 'books_per_country']
     )
-    fig.update_layout(height=500, 
-                        margin={"r":0,"t":0,"l":0,"b":0}, 
-                        margin_pad=0,
-                        font_family='Nunito Sans',
-                    # #   legend_title_text='Índice de legalidade',
-                        )
+    fig.update_layout(
+        height=500, 
+        margin={"r":0,"t":0,"l":0,"b":0}, 
+        margin_pad=0,
+        font_family='Nunito Sans',
+    # #   legend_title_text='Índice de legalidade',
+        )
+    fig.update_coloraxes(showscale=False)
     if selectedpoints != None:
         log(FILE, f"Updating choropleth figure for selected points: {selectedpoints}")
         fig.update_traces(selectedpoints=selectedpoints)
@@ -51,6 +53,14 @@ def map_page(lgbt_index_df, books_df):
                             ),
                         ]
                     ),
+                    # dcc.Markdown(
+                    #     "Explicação do mapa e [fonte](www.google.com)",
+                    #     style={
+                    #         # "margin-left": "12.5%", "margin-right": "12.5%",
+                    #         "margin": "auto", 
+                    #         "text-align": "center",
+                    #         "padding-bottom": 10}
+                        # )
                 ]
             ),
             html.Div(
