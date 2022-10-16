@@ -1,6 +1,8 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
+from functions import log
 
+FILE = 'ABOUT'
 
 def about_page(about_df):
     return html.Div(

@@ -3,6 +3,11 @@ import pandas as pd
 from dash import dcc, html
 from datetime import datetime
 
+FILE = 'FUNCTIONS'
+
+def log(FILE, message):
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | {FILE} | {message}")
+
 def create_accordion_item(city, year, book_synopsis, author_name, author_origin, book_title, book_link):
     font = "Nunito Sans"
     return dbc.AccordionItem( 
@@ -58,12 +63,14 @@ def create_accordions(books_df, country_list=None):
     
     if country_list == None:
         for country in books_df.country_name.unique():
+            log(FILE, f"Creating accordeon for {country}")
             country_accordion = create_country_accordion_list(country, books_df)
             accordions = accordions + country_accordion
     else:        
         for country in country_list:
-                country_accordion = create_country_accordion_list(country, books_df)
-                accordions = accordions + country_accordion
+            log(FILE, f"Creating accordeon for {country}")
+            country_accordion = create_country_accordion_list(country, books_df)
+            accordions = accordions + country_accordion
         
     return accordions
 

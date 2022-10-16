@@ -5,18 +5,21 @@ import pandas as pd
 import json
 
 from preprocess import litData
-from functions import create_accordions, footer
+from functions import create_accordions, footer, log
 from page_map import return_fig, map_page
 from page_about import about_page
 
+FILE = 'APP'
+
+log(FILE, "Opening geojson")
 with open("data/custom.geo.json") as geojson:
     geojson = json.load(geojson)
 
 countries_geo = []
 
+log(FILE, "Formating geojson")
 # Looping over the custom GeoJSON file
 for country in geojson['features']:
-    
     # Country name detection
     country_id = country['properties']['sov_a3']
     geometry = country['geometry']
@@ -33,17 +36,20 @@ country_dict = {}
 for i, country in enumerate(ls):
     country_dict[country] = i
 
+log(FILE, "Getting data")
 litData = litData()
 books_df, lgbt_index_df, about_df = litData.get_data()
 
 br_codes = books_df[['ISO-3', 'country_name']].copy().drop_duplicates()
 
+log(FILE, "Creating dash object")
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 server = app.server
 
 app.title = "Geo-Lit"
 app._favicon = ("favicon.png")
 
+log(FILE, "Creating main app front-end")
 app.layout = dbc.Container(
     [
         dcc.Location(id="url"),
@@ -75,6 +81,7 @@ app.layout = dbc.Container(
     Input('url', 'pathname'),
 )
 def change_page(pathname):
+    log(FILE, f"Redirecting to {pathname}")
     if pathname == '/' or pathname == '':
         return map_page(lgbt_index_df, books_df)
     elif pathname == '/about':
@@ -88,8 +95,10 @@ def change_page(pathname):
 )
 def update_output(value):
     if len(value) == 0:
+        log(FILE, "Creating accordions to all data")
         return create_accordions(books_df)
     else:
+        log(FILE, f"Creating accordions to {value}")
         return create_accordions(books_df, value)
 
 
@@ -99,9 +108,11 @@ def update_output(value):
 )
 def test(dropdown_selected_countries):
     if len(dropdown_selected_countries) == 0:
+        log(FILE, f"Creating graph to all data")       
         return return_fig(lgbt_index_df)
     else:
         countries = [country_dict[br_codes.loc[br_codes['country_name']==country,'ISO-3'].item()] for country in dropdown_selected_countries if country != None]
+        log(FILE, f"Creating graph to {countries}")
         return return_fig(lgbt_index_df, selectedpoints=countries)
 
 

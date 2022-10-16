@@ -1,10 +1,12 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 import plotly.express as px
+from functions import log
 
+FILE = 'PAGE_MAP'
 
 def return_fig(lgbt_index_df, selectedpoints=None):
-    
+    log(FILE, "Creating choropleth figure")
     fig = px.choropleth(
         data_frame=lgbt_index_df,
         locations='ISO-3',
@@ -12,19 +14,21 @@ def return_fig(lgbt_index_df, selectedpoints=None):
         projection = 'natural earth',
         basemap_visible=True,
         color_continuous_scale='rdbu',
-        hover_data=['ISO-3', 'country', 'books_per_country']
+        # hover_data=['ISO-3', 'country', 'books_per_country']
     )
     fig.update_layout(height=500, 
                         margin={"r":0,"t":0,"l":0,"b":0}, 
                         margin_pad=0,
                         font_family='Nunito Sans',
                     # #   legend_title_text='Índice de legalidade',
-                        ) 
+                        )
     if selectedpoints != None:
+        log(FILE, f"Updating choropleth figure for selected points: {selectedpoints}")
         fig.update_traces(selectedpoints=selectedpoints)
     return fig
 
 def map_page(lgbt_index_df, books_df):
+    log(FILE, "Creating map page front-end")
     return html.Div(
         [
             html.Div(
