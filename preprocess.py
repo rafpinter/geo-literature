@@ -1,6 +1,9 @@
 import os
 import pandas as pd
 from country_names import country_names
+from functions import log
+
+FILE = 'PREPROCESS'
 
 class litData:
     def __init__(self):
@@ -30,8 +33,10 @@ class litData:
         self.equality_scores_df = pd.merge(self.equality_scores_df, self.iso_codes, left_on='country', right_on='country', how='left')
     
     def _merge_book_count_to_equality_df(self):
-        df_books_per_country = self.books_df[['ISO-3', 'books_per_country']].copy()
-        self.equality_scores_df = pd.merge(self.equality_scores_df, df_books_per_country, on='ISO-3', how='left').fillna(0)
+        df_books_per_country = self.books_df[['ISO-3', 'books_per_country']].copy().fillna(0)
+        df_books_per_country = df_books_per_country.drop_duplicates()
+        self.equality_scores_df = pd.merge(self.equality_scores_df, df_books_per_country, on='ISO-3', how='left')
+        
     
     def request_spreadsheet_data(self):
         self.books_df = self._get_spreadsheet(self.books_tab_id)
@@ -41,7 +46,10 @@ class litData:
     
     def equality_scores_preprocess(self):
         self._merge_iso_codes_to_equality_df()
+        self.equality_scores_df.to_csv("eq1.csv")
         self._merge_book_count_to_equality_df()
+        self.equality_scores_df.to_csv("eq2.csv")
+
     
     def books_preprocess(self):
         self.books_df.sort_values(by='country_name', ascending=True, inplace=True)
