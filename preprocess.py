@@ -46,9 +46,7 @@ class litData:
     
     def equality_scores_preprocess(self):
         self._merge_iso_codes_to_equality_df()
-        self.equality_scores_df.to_csv("eq1.csv")
         self._merge_book_count_to_equality_df()
-        self.equality_scores_df.to_csv("eq2.csv")
 
     
     def books_preprocess(self):
