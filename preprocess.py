@@ -16,27 +16,39 @@ class litData:
         self.about_df = None
         self.iso_codes = None
     
-    def get_spreadsheet(self, tab_id):
+    def _get_spreadsheet(self, tab_id):
         url = f"https://docs.google.com/spreadsheets/d/{self.spreadsheet_id}/export?format=csv&id={self.spreadsheet_id}&gid={tab_id}"
         return pd.read_csv(url)
+
+    def _total_books_per_country(self):
+        df_books_per_country = self.books_df.groupby("ISO-3").size().reset_index()
+        df_books_per_country.columns = ['ISO-3', 'books_per_country']
+        self.books_df = pd.merge(self.books_df, df_books_per_country, on='ISO-3', how='left')
+        print(self.books_df.head())
+    
+    def _merge_iso_codes_to_equality_df(self):
+        self.equality_scores_df = pd.merge(self.equality_scores_df, self.iso_codes, left_on='country', right_on='country', how='left')
+    
+    def _merge_book_count_to_equality_df(self):
+        df_books_per_country = self.books_df[['ISO-3', 'books_per_country']].copy()
+        self.equality_scores_df = pd.merge(self.equality_scores_df, df_books_per_country, on='ISO-3', how='left').fillna(0)
     
     def request_spreadsheet_data(self):
-        self.books_df = self.get_spreadsheet(self.books_tab_id)
-        self.equality_scores_df = self.get_spreadsheet(self.equality_scores_tab_id)
-        self.iso_codes = self.get_spreadsheet(self.iso_codes_tab_id)
-        self.about_df = self.get_spreadsheet(self.about_tab_id)
+        self.books_df = self._get_spreadsheet(self.books_tab_id)
+        self.equality_scores_df = self._get_spreadsheet(self.equality_scores_tab_id)
+        self.iso_codes = self._get_spreadsheet(self.iso_codes_tab_id)
+        self.about_df = self._get_spreadsheet(self.about_tab_id)
     
     def equality_scores_preprocess(self):
-        self.equality_scores_df = pd.merge(self.equality_scores_df, self.iso_codes, left_on='country', right_on='country', how='left')
+        self._merge_iso_codes_to_equality_df()
+        self._merge_book_count_to_equality_df()
     
     def books_preprocess(self):
         self.books_df.sort_values(by='country_name', ascending=True, inplace=True)
+        self._total_books_per_country()
     
     def get_data(self):
         self.request_spreadsheet_data()
-        self.equality_scores_preprocess()
         self.books_preprocess()
+        self.equality_scores_preprocess()
         return self.books_df, self.equality_scores_df, self.about_df
-
-    def total_books_per_country(self):
-        self.books_df['']

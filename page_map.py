@@ -12,6 +12,7 @@ def return_fig(lgbt_index_df, selectedpoints=None):
         projection = 'natural earth',
         basemap_visible=True,
         color_continuous_scale='rdbu',
+        hover_data=['ISO-3', 'country', 'books_per_country']
     )
     fig.update_layout(height=500, 
                         margin={"r":0,"t":0,"l":0,"b":0}, 
