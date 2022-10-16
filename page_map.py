@@ -14,7 +14,7 @@ def return_fig(lgbt_index_df, selectedpoints=None):
         projection = 'natural earth',
         basemap_visible=True,
         color_continuous_scale='rdbu',
-        # hover_data=['ISO-3', 'country', 'books_per_country']
+        hover_data=['ISO-3', 'country', 'books_per_country']
     )
     fig.update_layout(height=500, 
                         margin={"r":0,"t":0,"l":0,"b":0}, 
@@ -33,9 +33,8 @@ def map_page(lgbt_index_df, books_df):
         [
             html.Div(
                 [
-                    html.Br(),
-                    html.Br(),
-                    html.H5("Direitos reservados à comunidade LGBTQIAP+ no mundo", 
+                    # html.Br(),
+                    html.H4("Direitos reservados à comunidade LGBTQIAP+ no mundo", 
                             style={
                                 # "margin-left": "12.5%", "margin-right": "12.5%",
                                 "margin": "auto", 
@@ -64,9 +63,17 @@ def map_page(lgbt_index_df, books_df):
                         ],
                         style={"padding-right": "6.5%", "padding-left": "6.5%"}
                     ),
+                    # html.Br(),
+                    html.H4("Representatividade da homoafetividade entre mulheres na literatura de expressão francesa contemporânea",
+                            style={
+                                # "margin-left": "12.5%", "margin-right": "12.5%",
+                                "margin": "auto", 
+                                "text-align": "center",
+                                "padding-bottom": 10}),
+                    html.Br(),
                     dcc.Dropdown(
                         books_df.country_name.unique(),
-                        [],
+                        books_df.country_name.unique(),
                         id='country_dropdown',
                         placeholder="Selecione o país",
                         multi=True
