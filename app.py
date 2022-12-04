@@ -50,13 +50,13 @@ app.layout = dbc.Container(
     [
         dcc.Location(id="url"),
         dbc.NavbarSimple(
-            brand="Geografia Literária Francófona",
+            brand="GÉOGRAPHIE LITTÉRAIRE FRANCOPHONE",
             brand_href="/",
             color="primary",
             dark=True,
             children=[
-                dbc.NavItem(dbc.NavLink("Mapa", href="/")),
-                dbc.NavItem(dbc.NavLink("Sobre Nós", href="/about"))
+                dbc.NavItem(dbc.NavLink("Carte", href="/")),
+                dbc.NavItem(dbc.NavLink("À PROPOS", href="/about"))
             ],
             style={"margin-left": 0, "margin-right": 0}
         ),

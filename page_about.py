@@ -17,13 +17,13 @@ def about_page(about_df):
                     html.Br(),
                     html.P(
                         children=[
-                            f"Pesquisa por ",
+                            f"Recherche par ",
                             dcc.Link(children=[about_df.loc[0,'nome_lili']], href=about_df.loc[0,'contato_ligia'])
                         ]
                     ),
                     html.P(
                         children=[
-                            f"Website por ",
+                            f"Site développé par ",
                             dcc.Link(children=[about_df.loc[0,'nome_rafa']], href=about_df.loc[0,'contato_rafa'])
                         ]
                     ),

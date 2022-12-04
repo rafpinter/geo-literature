@@ -26,7 +26,7 @@ class litData:
     def _total_books_per_country(self):
         df_books_per_country = self.books_df.groupby("ISO-3").size().reset_index()
         df_books_per_country.columns = ['ISO-3', 'books_per_country']
-        self.books_df = pd.merge(self.books_df, df_books_per_country, on='ISO-3', how='left')
+        self.books_df = pd.merge(self.books_df, df_books_per_country, on='ISO-3', how='left').fillna(0)
         print(self.books_df.head())
     
     def _merge_iso_codes_to_equality_df(self):
@@ -35,8 +35,7 @@ class litData:
     def _merge_book_count_to_equality_df(self):
         df_books_per_country = self.books_df[['ISO-3', 'books_per_country']].copy().fillna(0)
         df_books_per_country = df_books_per_country.drop_duplicates()
-        self.equality_scores_df = pd.merge(self.equality_scores_df, df_books_per_country, on='ISO-3', how='left')
-        
+        self.equality_scores_df = pd.merge(self.equality_scores_df, df_books_per_country, on='ISO-3', how='left').fillna(0)
     
     def request_spreadsheet_data(self):
         self.books_df = self._get_spreadsheet(self.books_tab_id)
@@ -47,7 +46,6 @@ class litData:
     def equality_scores_preprocess(self):
         self._merge_iso_codes_to_equality_df()
         self._merge_book_count_to_equality_df()
-
     
     def books_preprocess(self):
         self.books_df.sort_values(by='country_name', ascending=True, inplace=True)

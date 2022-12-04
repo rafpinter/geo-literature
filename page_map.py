@@ -2,19 +2,30 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from functions import log
+import pandas as pd
 
 FILE = 'PAGE_MAP'
 
 def return_fig(lgbt_index_df, selectedpoints=None):
     log(FILE, "Creating choropleth figure")
+    
+    lgbt_index_df = lgbt_index_df.rename(
+        columns={
+            'books_per_country': 'Livres par pays',
+            'country': 'Pays',
+            'Índice de legalidade': 'Taux de legalité',
+            'ISO-3': 'Acronyme du pays',
+            }
+    )
+    
     fig = px.choropleth(
         data_frame=lgbt_index_df,
-        locations='ISO-3',
-        color='Índice de legalidade',
+        locations='Acronyme du pays',
+        color='Taux de legalité',
         projection = 'natural earth',
         basemap_visible=True,
         color_continuous_scale='rdbu',
-        hover_data=['ISO-3', 'country', 'books_per_country']
+        hover_data=['Pays', 'Livres par pays']
     )
     fig.update_layout(
         height=500, 
@@ -24,6 +35,13 @@ def return_fig(lgbt_index_df, selectedpoints=None):
     # #   legend_title_text='Índice de legalidade',
         )
     fig.update_coloraxes(showscale=False)
+    # fig.update_traces(
+    #     hovertemplate='<br>'.join([
+    #         "Pays: %{customdata[0]}",
+    #         "Taux de legalité: %{'Taux de legalité'}",
+    #         "Livre par pays: %{customdata[1]}"
+    #     ])
+    # )
     if selectedpoints != None:
         log(FILE, f"Updating choropleth figure for selected points: {selectedpoints}")
         fig.update_traces(selectedpoints=selectedpoints)
@@ -36,7 +54,7 @@ def map_page(lgbt_index_df, books_df):
             html.Div(
                 [
                     # html.Br(),
-                    html.H4("Direitos reservados à comunidade LGBTQIAP+ no mundo", 
+                    html.H4("DROITS RÉSERVÉS À LA COMMUNAUTÉ LGBTQIAP+ DANS LE MONDE", 
                             style={
                                 # "margin-left": "12.5%", "margin-right": "12.5%",
                                 "margin": "auto", 
@@ -74,7 +92,7 @@ def map_page(lgbt_index_df, books_df):
                         style={"padding-right": "6.5%", "padding-left": "6.5%"}
                     ),
                     # html.Br(),
-                    html.H4("Representatividade da homoafetividade entre mulheres na literatura de expressão francesa contemporânea",
+                    html.H4("REPRÉSENTATION DE L'HOMOSEXUALITÉ FÉMININE DANS LA LITTÉRATURE FRANCOPHONE CONTEMPORAINE",
                             style={
                                 # "margin-left": "12.5%", "margin-right": "12.5%",
                                 "margin": "auto", 

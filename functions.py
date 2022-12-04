@@ -8,13 +8,13 @@ FILE = 'FUNCTIONS'
 def log(FILE, message):
     print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | {FILE} | {message}")
 
-def create_accordion_item(city, year, book_synopsis, author_name, author_origin, book_title, book_link):
+def create_accordion_item(publishers, city, year, book_synopsis, author_name, author_origin, book_title, book_link):
     font = "Nunito Sans"
     return dbc.AccordionItem( 
                 [
                     dcc.Link(children=[book_title], href=book_link),
                     html.P(),
-                    html.P(f"{city}, {year}",
+                    html.P(f"{publishers}, {city}, {year}",
                         #    style={"font-family": font}
                            className='text-muted'),
                     # html.Br(),
@@ -42,6 +42,7 @@ def create_country_accordion_list(country, books_df):
     for index,row in country_books_df.iterrows():
         
         accordion_item = create_accordion_item(
+            publishers=row['publishers'],
             city=row['city'], 
             year=row['year'], 
             book_synopsis=row['synopsis'], 
@@ -82,11 +83,11 @@ def footer(about_df):
                 children=[
                     html.Br(),
                     dcc.Link(
-                        children=['Ajude a melhorar o site'], 
+                        children=['Contribuer à notre base de données'], 
                         href=about_df.loc[0, 'forms_link'],
                         style={"color": "#cdcece"}),
                     html.Br(),
-                    html.P(f'Última atualização em {datetime.now().strftime("%d/%m/%Y")}', style={"color": "#707273"})
+                    html.P(f'Dernière mise à jour le 04/12/2022', style={"color": "#707273"})
                 ],
                 style={
                     "padding-up": 150, 
