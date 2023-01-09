@@ -1,6 +1,9 @@
 name: Integração Contínua
 
-on: push
+on: 
+  push:
+    branches:
+      - main
 
 jobs:
   executa_black:

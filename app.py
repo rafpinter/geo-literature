@@ -10,7 +10,7 @@ from page_map import return_fig, map_page
 from page_about import about_page
 from country_names import country_dict
 
-FILE = 'APP'
+FILE = "APP"
 
 log(FILE, "Opening geojson")
 with open("data/custom.geo.json") as geojson:
@@ -20,30 +20,26 @@ countries_geo = []
 
 log(FILE, "Formating geojson")
 # Looping over the custom GeoJSON file
-for country in geojson['features']:
+for country in geojson["features"]:
     # Country name detection
-    country_id = country['properties']['sov_a3']
-    geometry = country['geometry']
-    # Adding 'id' information for further match between map and data 
-    countries_geo.append({
-        'type': 'Feature',
-        'geometry': geometry,
-        'id':country_id
-        })
-geojson = {'type': 'FeatureCollection', 'features': countries_geo}
+    country_id = country["properties"]["sov_a3"]
+    geometry = country["geometry"]
+    # Adding 'id' information for further match between map and data
+    countries_geo.append({"type": "Feature", "geometry": geometry, "id": country_id})
+geojson = {"type": "FeatureCollection", "features": countries_geo}
 
 log(FILE, "Getting data")
 litData = litData()
 books_df, lgbt_index_df, about_df = litData.get_data()
 
-br_codes = books_df[['ISO-3', 'country_name']].copy().drop_duplicates()
+br_codes = books_df[["ISO-3", "country_name"]].copy().drop_duplicates()
 
 log(FILE, "Creating dash object")
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 server = app.server
 
 app.title = "Geo-Lit"
-app._favicon = ("favicon.png")
+app._favicon = "favicon.png"
 
 log(FILE, "Creating main app front-end")
 app.layout = dbc.Container(
@@ -56,39 +52,38 @@ app.layout = dbc.Container(
             dark=True,
             children=[
                 dbc.NavItem(dbc.NavLink("Carte", href="/")),
-                dbc.NavItem(dbc.NavLink("À PROPOS", href="/about"))
+                dbc.NavItem(dbc.NavLink("À PROPOS", href="/about")),
             ],
-            style={"margin-left": 0, "margin-right": 0}
+            style={"margin-left": 0, "margin-right": 0},
         ),
         html.Br(),
         html.Div(
-            id='page-content',
+            id="page-content",
             children=[],
-            style={"margin-left": 125, "margin-right": 125}
+            style={"margin-left": 125, "margin-right": 125},
         ),
         footer(about_df),
     ],
     fluid=True,
-    style={"margin-left": 0, "margin-right": 0, "padding-left": 0, "padding-right": 0}
+    style={"margin-left": 0, "margin-right": 0, "padding-left": 0, "padding-right": 0},
 )
 
+
 @app.callback(
-    Output('page-content', 'children'),
-    Input('url', 'pathname'),
+    Output("page-content", "children"),
+    Input("url", "pathname"),
 )
 def change_page(pathname):
     log(FILE, f"Redirecting to {pathname}")
-    if pathname == '/' or pathname == '':
+    if pathname == "/" or pathname == "":
         return map_page(lgbt_index_df, books_df)
-    elif pathname == '/about':
+    elif pathname == "/about":
         return about_page(about_df)
     else:
-        return html.P('Page Not Found')
+        return html.P("Page Not Found")
 
-@app.callback(
-    Output('accordion', 'children'),
-    Input('country_dropdown', 'value')
-)
+
+@app.callback(Output("accordion", "children"), Input("country_dropdown", "value"))
 def update_output(value):
     if len(value) == 0:
         log(FILE, "Creating accordions to all data")
@@ -98,20 +93,23 @@ def update_output(value):
         return create_accordions(books_df, value)
 
 
-@app.callback(
-    Output('graph', 'figure'),
-    Input('country_dropdown', 'value')
-)
+@app.callback(Output("graph", "figure"), Input("country_dropdown", "value"))
 def test(dropdown_selected_countries):
     if len(dropdown_selected_countries) == 0:
-        log(FILE, f"Creating graph to all data")       
+        log(FILE, f"Creating graph to all data")
         return return_fig(lgbt_index_df)
     else:
-        countries = [country_dict[br_codes.loc[br_codes['country_name']==country,'ISO-3'].item()] for country in dropdown_selected_countries if country != None]
+        countries = [
+            country_dict[
+                br_codes.loc[br_codes["country_name"] == country, "ISO-3"].item()
+            ]
+            for country in dropdown_selected_countries
+            if country != None
+        ]
         log(FILE, f"Creating graph to {countries}")
         return return_fig(lgbt_index_df, selectedpoints=countries)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # app.run(host='0.0.0.0', port=8050, debug=False)
-    app.run_server(debug=False, host='0.0.0.0', port=8050)
+    app.run_server(debug=False, host="0.0.0.0", port=8050)

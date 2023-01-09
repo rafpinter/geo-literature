@@ -2,33 +2,47 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 from functions import log
 
-FILE = 'ABOUT'
+FILE = "ABOUT"
+
 
 def about_page(about_df):
     return html.Div(
         [
             html.Div(
                 [
-                    html.H4(about_df.loc[0,'titulo']),
+                    html.H4(about_df.loc[0, "titulo"]),
                     html.Br(),
                     html.Br(),
-                    dcc.Markdown(about_df.loc[0,'descricao'], style={"text-align": "justify"}),
+                    dcc.Markdown(
+                        about_df.loc[0, "descricao"], style={"text-align": "justify"}
+                    ),
                     html.Br(),
                     html.Br(),
                     html.P(
                         children=[
                             f"Recherche par ",
-                            dcc.Link(children=[about_df.loc[0,'nome_lili']], href=about_df.loc[0,'contato_ligia'])
+                            dcc.Link(
+                                children=[about_df.loc[0, "nome_lili"]],
+                                href=about_df.loc[0, "contato_ligia"],
+                            ),
                         ]
                     ),
                     html.P(
                         children=[
                             f"Site développé par ",
-                            dcc.Link(children=[about_df.loc[0,'nome_rafa']], href=about_df.loc[0,'contato_rafa'])
+                            dcc.Link(
+                                children=[about_df.loc[0, "nome_rafa"]],
+                                href=about_df.loc[0, "contato_rafa"],
+                            ),
                         ]
                     ),
                 ],
-                style={'padding-top': 50, 'padding-bottom': 50, "margin-left": "12.5%", "margin-right": "12.5%"}
+                style={
+                    "padding-top": 50,
+                    "padding-bottom": 50,
+                    "margin-left": "12.5%",
+                    "margin-right": "12.5%",
+                },
             ),
         ]
     )
