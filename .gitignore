@@ -3,6 +3,5 @@
 */*.pyc
 */*/*.pyc
 *.ipynb
-*.yml
 *.sh
 test*.*
