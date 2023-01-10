@@ -1,7 +1,7 @@
 name: Deploy manual
 
 on: 
-  workflows_dispatch
+  workflow_dispatch
 
 jobs:
   deploy_app:
