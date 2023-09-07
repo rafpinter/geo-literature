@@ -4,11 +4,11 @@ import plotly.express as px
 import pandas as pd
 import json
 
-from preprocess import litData
-from functions import create_accordions, footer, log
-from page_map import return_fig, map_page
-from page_about import about_page
-from country_names import country_dict
+from src.preprocess import litData
+from src.functions import create_accordions, footer, log
+from pages.page_map import return_fig, map_page
+from pages.page_about import about_page
+from src.country_names import country_dict
 
 FILE = "APP"
 

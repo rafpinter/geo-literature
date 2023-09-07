@@ -1,7 +1,7 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from functions import log
+from src.functions import log
 import pandas as pd
 
 FILE = "PAGE_MAP"

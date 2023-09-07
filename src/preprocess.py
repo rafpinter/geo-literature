@@ -1,7 +1,7 @@
 import os
 import pandas as pd
-from country_names import country_names
-from functions import log
+from src.country_names import country_names
+from src.functions import log
 
 FILE = "PREPROCESS"
 
