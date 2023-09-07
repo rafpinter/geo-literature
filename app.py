@@ -10,6 +10,11 @@ from pages.page_map import return_fig, map_page
 from pages.page_about import about_page
 from src.country_names import country_dict
 
+from dotenv import load_dotenv
+
+# take environment variables from .env.
+load_dotenv()
+
 FILE = "APP"
 
 log(FILE, "Opening geojson")
