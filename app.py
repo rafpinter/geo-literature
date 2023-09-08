@@ -4,16 +4,12 @@ import plotly.express as px
 import pandas as pd
 import json
 
-from src.preprocess import litData
+from configs.vars import APP_TITLE, APP_FAVICON, PAGE_HEADER, APP_HOST, APP_PORT
+from src.country_names import country_dict
 from src.functions import create_accordions, footer, log
+from src.preprocess import litData
 from pages.page_map import return_fig, map_page
 from pages.page_about import about_page
-from src.country_names import country_dict
-
-from dotenv import load_dotenv
-
-# take environment variables from .env.
-load_dotenv()
 
 FILE = "APP"
 
@@ -43,15 +39,15 @@ log(FILE, "Creating dash object")
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 server = app.server
 
-app.title = "Geo-Lit"
-app._favicon = "favicon.png"
+app.title = APP_TITLE
+app._favicon = APP_FAVICON
 
 log(FILE, "Creating main app front-end")
 app.layout = dbc.Container(
     [
         dcc.Location(id="url"),
         dbc.NavbarSimple(
-            brand="GÉOGRAPHIE LITTÉRAIRE FRANCOPHONE",
+            brand=PAGE_HEADER,
             brand_href="/",
             color="primary",
             dark=True,
@@ -117,4 +113,4 @@ def test(dropdown_selected_countries):
 
 if __name__ == "__main__":
     # app.run(host='0.0.0.0', port=8050, debug=False)
-    app.run_server(debug=False, host="0.0.0.0", port=8050)
+    app.run_server(debug=False, host=APP_HOST, port=APP_PORT)
