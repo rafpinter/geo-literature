@@ -3,6 +3,13 @@ import dash_bootstrap_components as dbc
 import json
 
 from configs.vars import APP_TITLE, APP_FAVICON, PAGE_HEADER, APP_HOST, APP_PORT
+from configs.vars import (
+    SPREADSHEET_ID,
+    BOOKS_TAB_ID,
+    EQUALITY_SCORES_TAB_ID,
+    ABOUT_TAB_ID,
+    ISO_CODES_TAB_ID,
+)
 from src.country_names import country_dict
 from src.functions import create_accordions, footer, log
 from src.preprocess import litData
@@ -28,7 +35,15 @@ for country in geojson["features"]:
 geojson = {"type": "FeatureCollection", "features": countries_geo}
 
 log(FILE, "Getting data")
-litData = litData()
+
+# Creating object
+litData = litData(
+    SPREADSHEET_ID=SPREADSHEET_ID,
+    BOOKS_TAB_ID=BOOKS_TAB_ID,
+    EQUALITY_SCORES_TAB_ID=EQUALITY_SCORES_TAB_ID,
+    ABOUT_TAB_ID=ABOUT_TAB_ID,
+    ISO_CODES_TAB_ID=ISO_CODES_TAB_ID,
+)
 books_df, lgbt_index_df, about_df = litData.get_data()
 
 br_codes = books_df[["ISO-3", "country_name"]].copy().drop_duplicates()

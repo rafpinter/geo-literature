@@ -5,12 +5,19 @@ FILE = "PREPROCESS"
 
 
 class litData:
-    def __init__(self):
-        self.spreadsheet_id = os.environ["SPREADSHEET_ID"]
-        self.books_tab_id = os.environ["BOOKS_TAB_ID"]
-        self.equality_scores_tab_id = os.environ["EQUALITY_SCORES_TAB_ID"]
-        self.about_tab_id = os.environ["ABOUT_TAB_ID"]
-        self.iso_codes_tab_id = os.environ["ISO_CODES_TAB_ID"]
+    def __init__(
+        self,
+        SPREADSHEET_ID,
+        BOOKS_TAB_ID,
+        EQUALITY_SCORES_TAB_ID,
+        ABOUT_TAB_ID,
+        ISO_CODES_TAB_ID,
+    ):
+        self.spreadsheet_id = SPREADSHEET_ID
+        self.books_tab_id = BOOKS_TAB_ID
+        self.equality_scores_tab_id = EQUALITY_SCORES_TAB_ID
+        self.about_tab_id = ABOUT_TAB_ID
+        self.iso_codes_tab_id = ISO_CODES_TAB_ID
 
         self.books_df = None
         self.equality_scores_df = None
