@@ -1,7 +1,5 @@
-from dash import Dash, dcc, html, Input, Output, dash_table
+from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
-import plotly.express as px
-import pandas as pd
 import json
 
 from configs.vars import APP_TITLE, APP_FAVICON, PAGE_HEADER, APP_HOST, APP_PORT

@@ -1,14 +1,11 @@
 import os
 import pandas as pd
-from src.country_names import country_names
-from src.functions import log
 
 FILE = "PREPROCESS"
 
 
 class litData:
     def __init__(self):
-
         self.spreadsheet_id = os.environ["SPREADSHEET_ID"]
         self.books_tab_id = os.environ["BOOKS_TAB_ID"]
         self.equality_scores_tab_id = os.environ["EQUALITY_SCORES_TAB_ID"]
