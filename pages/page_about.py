@@ -1,6 +1,6 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from functions import log
+from src.functions import log
 
 FILE = "ABOUT"
 
