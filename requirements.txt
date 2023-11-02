@@ -145,3 +145,4 @@ wcwidth==0.2.5
 websockets==10.3
 Werkzeug==2.2.2
 zipp==3.8.1
+python-dotenv==1.0.0
